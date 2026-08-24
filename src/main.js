@@ -1,4 +1,4 @@
-npmimport './styles/global.css';
+import './styles/global.css';
 import './styles/components.css';
 import { games } from './data.js';
 import gsap from 'gsap';
@@ -10,7 +10,7 @@ document.querySelector('#app').innerHTML = `
     <nav class="nav-container" id="navBar">
       <button class="nav-btn active" data-filter="all">전체 보기</button>
       <button class="nav-btn" data-filter="liked">내가 찜한 게임 💖</button>
-      ${games.map(game => `<button class="nav-btn" data-filter="${game.id}">${game.title}</button>`).join('')}
+      ${games.map((game) => `<button class="nav-btn" data-filter="${game.id}">${game.title}</button>`).join('')}
       <input type="text" id="searchInput" class="search-input" placeholder="게임 검색..." />
       <button class="nav-btn" id="aboutBtn">About</button>
     </nav>
@@ -57,7 +57,7 @@ let likedGames = JSON.parse(localStorage.getItem('epilogue_likes')) || [];
 
 const toggleLike = (gameId) => {
   if (likedGames.includes(gameId)) {
-    likedGames = likedGames.filter(id => id !== gameId);
+    likedGames = likedGames.filter((id) => id !== gameId);
   } else {
     likedGames.push(gameId);
   }
@@ -66,9 +66,10 @@ const toggleLike = (gameId) => {
 
 // Render Game Cards
 const gallery = document.getElementById('gallery');
-gallery.innerHTML = games.map(game => {
-  const isLiked = likedGames.includes(game.id) ? 'liked' : '';
-  return `
+gallery.innerHTML = games
+  .map((game) => {
+    const isLiked = likedGames.includes(game.id) ? 'liked' : '';
+    return `
   <article class="game-card glass-panel" data-id="${game.id}" data-title="${game.title.toLowerCase()}" style="--hover-color: ${game.color};" aria-label="${game.title} 카드">
     <button class="like-btn ${isLiked}" aria-label="좋아요" data-game="${game.id}">♥</button>
     <div class="card-bg lazy-bg" data-bg="${game.image}"></div>
@@ -78,10 +79,11 @@ gallery.innerHTML = games.map(game => {
     </div>
   </article>
   `;
-}).join('');
+  })
+  .join('');
 
 // Like Button Event Binding
-document.querySelectorAll('.like-btn').forEach(btn => {
+document.querySelectorAll('.like-btn').forEach((btn) => {
   btn.addEventListener('click', (e) => {
     e.stopPropagation(); // 모달 팝업 방지
     const gameId = e.target.dataset.game;
@@ -92,45 +94,60 @@ document.querySelectorAll('.like-btn').forEach(btn => {
 
 // Lazy Loading with Intersection Observer
 const lazyBgs = document.querySelectorAll('.lazy-bg');
-const bgObserver = new IntersectionObserver((entries, observer) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      const bg = entry.target;
-      bg.style.backgroundImage = `url('${bg.dataset.bg}')`;
-      observer.unobserve(bg);
-    }
-  });
-}, { rootMargin: "100px 0px" });
+const bgObserver = new IntersectionObserver(
+  (entries, observer) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const bg = entry.target;
+        bg.style.backgroundImage = `url('${bg.dataset.bg}')`;
+        observer.unobserve(bg);
+      }
+    });
+  },
+  { rootMargin: '100px 0px' },
+);
 
-lazyBgs.forEach(bg => bgObserver.observe(bg));
+lazyBgs.forEach((bg) => bgObserver.observe(bg));
 
 // Navigation Filter Logic & Search
 const filterCards = () => {
   const activeFilter = document.querySelector('.nav-btn.active').dataset.filter;
-  const searchQuery = document.getElementById('searchInput').value.toLowerCase();
-  
-  document.querySelectorAll('.game-card').forEach(card => {
+  const searchQuery = document
+    .getElementById('searchInput')
+    .value.toLowerCase();
+
+  document.querySelectorAll('.game-card').forEach((card) => {
     const gameId = card.dataset.id;
     const title = card.dataset.title;
-    
+
     let matchFilter = false;
     if (activeFilter === 'all') matchFilter = true;
-    else if (activeFilter === 'liked') matchFilter = likedGames.includes(gameId);
-    else matchFilter = (gameId === activeFilter);
-    
+    else if (activeFilter === 'liked')
+      matchFilter = likedGames.includes(gameId);
+    else matchFilter = gameId === activeFilter;
+
     let matchSearch = title.includes(searchQuery);
-    
+
     if (matchFilter && matchSearch) {
       gsap.to(card, { display: 'flex', opacity: 1, scale: 1, duration: 0.4 });
     } else {
-      gsap.to(card, { opacity: 0, scale: 0.8, duration: 0.3, onComplete: () => { card.style.display = 'none'; } });
+      gsap.to(card, {
+        opacity: 0,
+        scale: 0.8,
+        duration: 0.3,
+        onComplete: () => {
+          card.style.display = 'none';
+        },
+      });
     }
   });
 };
 
-document.querySelectorAll('.nav-btn').forEach(btn => {
+document.querySelectorAll('.nav-btn').forEach((btn) => {
   btn.addEventListener('click', (e) => {
-    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+    document
+      .querySelectorAll('.nav-btn')
+      .forEach((b) => b.classList.remove('active'));
     e.target.classList.add('active');
     filterCards();
   });
@@ -141,15 +158,28 @@ document.getElementById('searchInput').addEventListener('keyup', filterCards);
 // Intro Animations
 window.addEventListener('load', () => {
   const tl = gsap.timeline();
-  tl.from('.app-header', { y: -50, opacity: 0, duration: 0.6, ease: 'power2.out' })
-    .to('.hero-section', { opacity: 1, duration: 1, ease: 'power2.out' }, '-=0.3')
-    .to('.game-card', { 
-      opacity: 1, 
-      y: 0, 
-      duration: 0.8, 
-      stagger: 0.1, 
-      ease: 'back.out(1.7)' 
-    }, '-=0.5');
+  tl.from('.app-header', {
+    y: -50,
+    opacity: 0,
+    duration: 0.6,
+    ease: 'power2.out',
+  })
+    .to(
+      '.hero-section',
+      { opacity: 1, duration: 1, ease: 'power2.out' },
+      '-=0.3',
+    )
+    .to(
+      '.game-card',
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        stagger: 0.1,
+        ease: 'back.out(1.7)',
+      },
+      '-=0.5',
+    );
 });
 
 // Modal Logic
@@ -167,12 +197,12 @@ aboutOverlay.addEventListener('click', (e) => {
   if (e.target === aboutOverlay) aboutOverlay.classList.remove('active');
 });
 
-document.querySelectorAll('.game-card').forEach(card => {
+document.querySelectorAll('.game-card').forEach((card) => {
   card.addEventListener('click', () => {
     const gameId = card.dataset.id;
-    const game = games.find(g => g.id === gameId);
+    const game = games.find((g) => g.id === gameId);
     if (!game) return;
-    
+
     // Inject Data with Tabs
     modalContent.innerHTML = `
       <button class="modal-close" id="modalClose" aria-label="닫기">&times;</button>
@@ -191,11 +221,11 @@ document.querySelectorAll('.game-card').forEach(card => {
           <p style="line-height:1.8; font-size:1.1rem;">${game.story}</p>
         </div>
         <div class="modal-tab-content" id="tab-chars">
-          <ul>${game.characters.map(c => `<li>${c}</li>`).join('')}</ul>
+          <ul>${game.characters.map((c) => `<li>${c}</li>`).join('')}</ul>
         </div>
         <div class="modal-tab-content" id="tab-gallery">
           <div class="gallery-slide">
-            ${game.gallery.map(img => `<img src="${img}" class="modal-image" loading="lazy" />`).join('')}
+            ${game.gallery.map((img) => `<img src="${img}" class="modal-image" loading="lazy" />`).join('')}
           </div>
         </div>
         <div class="modal-tab-content" id="tab-quote">
@@ -203,22 +233,24 @@ document.querySelectorAll('.game-card').forEach(card => {
         </div>
       </div>
     `;
-    
+
     modalOverlay.classList.add('active');
-    
+
     // Tab Switching Logic
     const tabBtns = modalContent.querySelectorAll('.modal-tab-btn');
     const tabContents = modalContent.querySelectorAll('.modal-tab-content');
-    
-    tabBtns.forEach(btn => {
+
+    tabBtns.forEach((btn) => {
       btn.addEventListener('click', () => {
-        tabBtns.forEach(b => b.classList.remove('active'));
-        tabContents.forEach(c => c.classList.remove('active'));
+        tabBtns.forEach((b) => b.classList.remove('active'));
+        tabContents.forEach((c) => c.classList.remove('active'));
         btn.classList.add('active');
-        modalContent.querySelector('#' + btn.dataset.target).classList.add('active');
+        modalContent
+          .querySelector('#' + btn.dataset.target)
+          .classList.add('active');
       });
     });
-    
+
     // Close Event
     document.getElementById('modalClose').addEventListener('click', () => {
       modalOverlay.classList.remove('active');
