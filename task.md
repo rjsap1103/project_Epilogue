@@ -1,0 +1,36 @@
+# EPILOGUE 작업 진행 현황
+
+- `[x]` **Phase 1: 프로젝트 초기 설정 및 기반 구축 (Setup)**
+  - `[x]` Vite 기반 Vanilla JS 프로젝트 생성
+  - `[x]` 디자인 토큰 정의 (CSS 변수)
+  - `[x]` 글로벌 스타일 적용
+- `[x]` **Phase 2: 코어 컴포넌트 및 UI 에셋 개발**
+  - `[x]` 글래스모피즘 UI 베이스 개발
+  - `[x]` Floating 네비게이션 탭 구현
+  - `[x]` 게임 데이터 구조화 (`data.js`)
+- `[x]` **Phase 3: 메인 페이지 레이아웃 및 인터랙션**
+  - `[x]` Hero Section 마크업 및 애니메이션
+  - `[x]` 게임 카드 그리드 구현
+  - `[x]` Hover 영상 재생 기능 (CSS 스케일/필터 인터랙션으로 구현)
+- `[x]` **Phase 4: 상세 모달 팝업 구현**
+  - `[x]` 모달 UI 마크업 및 스타일링
+  - `[x]` 데이터 바인딩 로직
+  - `[x]` 모달 내부 애니메이션
+- `[x]` **Phase 5: 성능 최적화 및 최종 폴리싱**
+  - `[x]` 미디어 지연 로딩 (Lazy Loading - IntersectionObserver)
+  - `[x]` 반응형 웹 완벽 호환 (Filter 애니메이션 포함)
+  - `[x]` 접근성(A11y) 및 SEO 개선 (메타 태그 및 aria-label 추가)
+- `[x]` **Phase 6: 데이터 구조 확장 및 추가 에셋 생성**
+  - `[x]` 각 게임별 추가 AI 갤러리 이미지 생성 및 저장
+  - `[x]` `data.js`에 Story, Characters, Gallery 속성 추가
+- `[x]` **Phase 7: 좋아요 및 검색 시스템 구현**
+  - `[x]` 카드에 좋아요(Heart) 버튼 추가 및 Local Storage 연동
+  - `[x]` 네비게이션 영역에 검색창 추가 및 실시간 필터링 연동
+  - `[x]` '내가 찜한 게임' 탭 추가
+- `[x]` **Phase 8: 모달 탭 구조화 및 About 메뉴**
+  - `[x]` 상세 모달을 4개의 탭(Story, Characters, Gallery, Quote)으로 분리 구현
+  - `[x]` 포트폴리오 소개용 About 메뉴 및 팝업 구현
+- `[x]` **Phase 9: 웹사이트 확장 (신규 콘텐츠 추가)**
+  - `[x]` NieR: Automata 및 TLOU 메인/갤러리 AI 이미지 생성 (총 4장)
+  - `[x]` `global.css` 테마 컬러 변수 추가
+  - `[x]` `data.js` 신규 게임 2종 데이터 객체 등록
